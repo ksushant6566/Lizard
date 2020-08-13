@@ -1,0 +1,27 @@
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    color: rgb(190, 190, 190);
+}
+
+body{
+    background-color: black;
+}
+
+.feed-container{
+    width: 968px;
+    margin: auto;
+}
+
+.noise-container{
+    width: 100%;
+    height: 200px;
+    border: 1px grey solid;
+    margin: 5px;
+    
+}
+
+.user-link{
+    background-color:blue;
+}
