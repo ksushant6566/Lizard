@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useContext } from 'react';
+import { LizardContext } from '../context/context';
 import Noise from './Noise';
+
+
 
 function Feed() {
     
-    const [noises, setNoises] = useState([]);
+    const {noises, getNoises} = useContext(LizardContext);
+    
 
     useEffect(() => {
-        axios.get('http://localhost:5000/noises')
-            .then(response => setNoises(response.data))
-            .catch(err => console.log(err))
+        getNoises();
     },[])
 
     
@@ -17,7 +18,7 @@ function Feed() {
         {
             noises.map(noise => {
                 return (
-                <Noise noise={noise} />
+                <Noise key={noise._id} noise={noise} />
                 )})
         }
     </div>

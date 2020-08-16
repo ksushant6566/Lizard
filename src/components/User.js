@@ -1,22 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, {useContext, useEffect } from 'react';
+// import axios from 'axios';
+import { LizardContext } from '../context/context'
 
-function User(props) {
+function User({ match }) {
+    const { lizardUser } = useContext(LizardContext);
+    const { getUser } = useContext(LizardContext);
+
+    useEffect(() => { 
+        getUser(match.params.id);
+        console.log(match.params.id);
+     },[]);
+
     
-    const [user, setUser] = useState({});
 
-    useEffect(() => {
-        axios.get(`http://localhost:5000/users/`)
-            .then(user => console.log(user.data))
-            .catch(err => console.log(err))
-    },[]);
-
-    return <div className="user" >
-        <h1>{user.username}</h1>
-        <p>bio  {user.bio}</p>
-        <p>location {user.location}</p>
-        <p>contact {user.contact}</p>
-    </div>
-}
+    return (
+         <div className="user-card" >
+            <h1>{lizardUser.username}</h1>
+            <p>bio  {lizardUser.bio}</p>
+            <p>location {lizardUser.location}</p>
+            <p>contact {lizardUser.contact}</p>
+        </div>
+        )}
 
 export default User;
