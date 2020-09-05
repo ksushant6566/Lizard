@@ -4,7 +4,7 @@ import { LizardContext } from '../context/context';
 
 function CreateNoise() {
 
-    const { loggedUser } = useContext(LizardContext);
+    const { loggedUser, getNoises } = useContext(LizardContext);
 
     const [description , setDescription] = useState('');
     
@@ -23,7 +23,8 @@ function CreateNoise() {
         await axios.post('http://localhost:5000/noises/add', Noise).then(res => console.log(res)).catch(err => console.log(err));
         console.log("noise created");
 
-        window.location = '/';
+        getNoises();
+        // window.location = '/';
     }
 
     return (
