@@ -41,6 +41,33 @@ const LizardProvider = ({ children }) => {
         }
         
     }
+    // LIKE / DISLIKE NOISE (Noise) 
+    const likeNoise = async (noiseId) => {
+        
+        const isliked = loggedUser.likedNoises.some(noise => noise === noiseId);
+        
+        if(isliked) {
+            await axios.post(`http://localhost:5000/noises/dislike/${noiseId}`)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+        } else {
+            await axios.post(`http://localhost:5000/noises/like/${noiseId}`)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+        }
+        
+        await axios.post(`http://localhost:5000/users/like/${loggedUser._id}`,{likedNoise : noiseId})
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+        getNoises();
+        refreshUser(loggedUser._id);
+    }
+
+    const refreshUser = (id) => {
+        axios.get(`http://localhost:5000/users/${id}`)
+            .then(res => setLoggedUser(res.data))
+            .catch(err => console.log(err))
+    }
 
     // GET NOISES (NoiseFeed)
     const getNoises = async () => {
@@ -58,7 +85,7 @@ const LizardProvider = ({ children }) => {
 
     return ( 
         <LizardContext.Provider value = {{
-            lizardUser, getUser, noises, getNoises, deleteNoise, checkUser, loggedUser, setLoggedUser
+            lizardUser, getUser, noises, getNoises, deleteNoise, checkUser, loggedUser, setLoggedUser, likeNoise
         }}>{children}</LizardContext.Provider>
     )
 }
