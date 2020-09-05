@@ -11,7 +11,7 @@ const { logout } = useAuth0();
             <ul className="nav-links">
                 <Link to="/"><li>home</li> </Link>
                 <Link to="/about"><li>about</li></Link>
-                <Link to="/user"><li>user</li></Link>
+                <Link to="/user"><li>profile</li></Link>
             </ul>
             <button onClick={() => logout({ redirectTo: window.location.origin })}> Logout </button>
         </nav>
