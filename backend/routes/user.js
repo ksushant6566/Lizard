@@ -6,13 +6,15 @@ let User = require('../models/user.model');
 router.route('/').get((req, res) => {
     User.find()
         .then(users => res.json(users))
-        .catch(err => res.status(400).json('Error: ' + err));
+        .catch(err => res.status(200).json('Error: ' + err));
 });
+
+// GET SPECIFIC USER
 
 router.route('/:id').get((req, res) => {
     User.findById(req.params.id)
         .then(user => res.json(user))
-        .catch(err => res.status(400).json("Error: "+ err));
+        .catch(err => res.status(200).json("Error: "+ err));
 })
 
 // ADD USER
@@ -22,18 +24,17 @@ router.route('/add').post((req, res) => {
     const bio = req.body.bio;
     const location = req.body.location;
     const contact = req.body.contact;
-    const likedNoises = req.body.likedNoises;
+    // const likedNoises = req.body.likedNoises;
 
     const newUser = new User({
         username,
         bio,
         location,
         contact,
-        likedNoises
     });
 
     newUser.save()
-        .then(() => res.json('lizard added!'))
+        .then((user) => res.json(user))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -48,9 +49,9 @@ router.route('/update/:id').post((req, res) => {
 
             user.save()
                 .then(() => res.json("lizard updated"))
-                .catch(err => res.status(400).json("Error: "+ err))
+                .catch(err => res.status(200).json("Error: "+ err))
 
-        } ).catch(err => res.status(400).json("Error: "+ err))
+        } ).catch(err => res.status(200).json("Error: "+ err))
 } );
 
 // LIKE / DISLIKE
@@ -67,7 +68,7 @@ router.route('/like/:id').post((req, res) => {
     
                 user.save()
                     .then(() => res.json("Liked"))
-                    .catch(err => res.status(400).json("Error: "+err))
+                    .catch(err => res.status(200).json("Error: "+err))
             }
             else {
                 updatedlikedNoises = user.likedNoises.filter((ln) => { return ln !== req.body.likedNoise})
@@ -75,26 +76,60 @@ router.route('/like/:id').post((req, res) => {
                 
                 user.save()
                     .then(() => res.json("Disliked"))
-                    .catch(err => res.status(400).json("Error: "+err))
+                    .catch(err => res.status(200).json("Error: "+err))
             }
 
-        }).catch(err => res.status(400).json("Error: "+err))
+        }).catch(err => res.status(200).json("Error: "+err))
 });
 
-// DISLIKE
+// FOLLOW / UNFOLLOW ANOTHER USER
 
-// router.route('/dislike/:id').post((req, res) => {
-//     User.findById(req.params.id)
-//         .then(user => {
-//         }).catch(err => res.status(400).json("Error: "+err))
-// });
+router.route('/follow/:id').post((req, res) => {
+    User.findById(req.params.id)
+        .then(user => {
+            let updatedfollows = user.follows;
+            const isFollowed = updatedfollows.some(id => id._id == req.body.followId )
+
+            if(isFollowed) {
+                updatedfollows = user.follows.filter(id => id._id != req.body.followId)
+                user.follows = updatedfollows
+            }else {
+                updatedfollows.push(req.body.followId);
+                user.follows = updatedfollows
+            }
+
+            user.save()
+                .then(user => res.json(user))
+                .catch(err => res.status(200).json("Error : " + err))
+        })
+        .catch(err => res.status(200).json(err))
+
+    User.findById(req.body.followId)
+        .then(user => {
+            let updatedfollowers = user.followers;
+            const isFollowed = updatedfollowers.some( id => id._id == req.params.id )
+
+            if(isFollowed) {
+                updatedfollowers = user.followers.filter(id => id._id != req.params.id)
+                user.followers = updatedfollowers
+            }else {
+                updatedfollowers.push(req.params.id);
+                user.followers = updatedfollowers
+            }
+
+            user.save()
+                // .then(() => res.json("successful"))
+                .catch(err => res.status(200).json("error"))
+        })
+        .catch(err => res.status(200).json(err))
+})
 
 // DELETE USER
 
 router.route('/:id').delete((req, res) => {
     User.findByIdAndDelete(req.params.id)
         .then(() => res.json("user deleted"))
-        .catch(err => res.status(400).json("Error: "+err))
+        .catch(err => res.status(200).json("Error: "+err))
 })
 
 module.exports = router;
