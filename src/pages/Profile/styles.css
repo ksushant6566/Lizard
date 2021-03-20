@@ -1,0 +1,11 @@
+.profile {
+    width: 85%;
+    position: relative;
+    top: 0%; left: 15%;
+    background-color: #003F63;
+}
+.userSnap-wrap {
+    width: 100%;
+    padding-right: 50%;
+    border-bottom: 1px solid black;
+}

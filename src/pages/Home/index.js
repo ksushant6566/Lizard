@@ -1,23 +1,22 @@
 import React, { useContext, useEffect } from 'react';
-import NoiseFeed from './NoiseFeed';
-import CreateNoise from './CreateNoise';
-import { LizardContext } from '../context/context';
+import { LizardContext } from '../../context/context';
 import { useAuth0 } from '@auth0/auth0-react';
 
+import NoiseFeed from '../../components/NoiseFeed';
+import RightUtils from '../../components/RightUtils';
 
 function Home() {
     
     const { checkUser } = useContext(LizardContext);
     const { user } = useAuth0();
 
-    useEffect(() => {
-        console.log(user);
-        checkUser(user.nickname);
-    }, [user])
+    // useEffect(() => {
+    //     checkUser(user.nickname);
+    // }, [user])
 
     return <div className = 'home'>
         <NoiseFeed />
-        <CreateNoise />
+        <RightUtils />
     </div>
 }
 

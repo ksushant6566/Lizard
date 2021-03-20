@@ -6,37 +6,39 @@ function CreateNoise() {
 
     const { loggedUser, getNoises } = useContext(LizardContext);
 
-    const [description , setDescription] = useState('');
-    
+    const [description, setDescription] = useState('');
+
     const handleChange = (e) => {
         setDescription(e.target.value);
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("creating noise");
-        const Noise = {
-            username : loggedUser.username,
-            userId : loggedUser._id,
-            description
-        } 
 
-        await axios.post('http://localhost:5000/noises/add', Noise).then(res => console.log(res)).catch(err => console.log(err));
-        console.log("noise created");
+        const Noise = {
+            username: loggedUser.username,
+            userId: loggedUser._id,
+            description
+        }
+
+        await axios.post('http://localhost:5000/noises/add', Noise)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
 
         getNoises();
-        // window.location = '/';
     }
 
     return (
-        <form  onSubmit={handleSubmit} className= "form-container">
-            <input
-             type="text" 
-             placeholder=" make some noise " 
-             value={description} 
-             onChange={handleChange} 
-            ></input>
-            <button >Post</button>
-        </form>
+        <div className="create-noise">
+            <form onSubmit={handleSubmit} className="form-container">
+                <input
+                    type="text"
+                    placeholder=" make some noise "
+                    value={description}
+                    onChange={handleChange}
+                ></input>
+                <button type="submit" >Post</button>
+            </form>
+        </div>
     )
 }
 

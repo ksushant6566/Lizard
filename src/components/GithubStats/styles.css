@@ -1,0 +1,15 @@
+.github-stats {
+    width: 100%;
+    padding: 20px 0px;
+    text-align: center;
+    background-color: inherit;
+}
+.stats-heading {
+    margin: 0 auto;
+    font-size: larger;
+    font-weight: 600;
+    padding: 5px;
+    border-bottom: 1px solid grey;
+    width: max-content;
+    color: white;
+}

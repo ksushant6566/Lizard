@@ -9,14 +9,14 @@ const LizardProvider = ({ children }) => {
     const [noises, setNoises] = useState([]);
     const [loggedUser, setLoggedUser ] = useState({});
 
+    const baseUrl = 'http://localhost:5000';
 
 
-
-    // CHECK IF THE USER EXIST OR NOT (Home)
+    // CHECK IF THE USER EXISTs OR NOT (Home)
     const checkUser = async (CurrUser) => {
         console.log(CurrUser);
         
-        const users = await axios.get('http://localhost:5000/users/').catch(err => console.log(err));
+        const users = await axios.get(`${baseUrl}/users/`).catch(err => console.log(err));
         const userIsLizard =  users.data.some( user =>  user.username === CurrUser );
         
         if(userIsLizard) {
@@ -32,7 +32,7 @@ const LizardProvider = ({ children }) => {
     const deleteNoise = async (noiseId, authorId) => {
         
         if(authorId === loggedUser._id){
-            await axios.delete(`http://localhost:5000/noises/${noiseId}`)
+            await axios.delete(`${baseUrl}/noises/${noiseId}`)
                 .then(() => console.log("noise deleted"))
                 .catch(err => console.log(err));
             window.location.reload();
@@ -47,16 +47,16 @@ const LizardProvider = ({ children }) => {
         const isliked = loggedUser.likedNoises.some(noise => noise === noiseId);
         
         if(isliked) {
-            await axios.post(`http://localhost:5000/noises/dislike/${noiseId}`)
+            await axios.post(`${baseUrl}/noises/dislike/${noiseId}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
         } else {
-            await axios.post(`http://localhost:5000/noises/like/${noiseId}`)
+            await axios.post(`${baseUrl}/noises/like/${noiseId}`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
         }
         
-        await axios.post(`http://localhost:5000/users/like/${loggedUser._id}`,{likedNoise : noiseId})
+        await axios.post(`${baseUrl}/users/like/${loggedUser._id}`,{likedNoise : noiseId})
         .then(res => console.log(res))
         .catch(err => console.log(err));
         getNoises();
@@ -64,21 +64,21 @@ const LizardProvider = ({ children }) => {
     }
 
     const refreshUser = (id) => {
-        axios.get(`http://localhost:5000/users/${id}`)
+        axios.get(`${baseUrl}/users/${id}`)
             .then(res => setLoggedUser(res.data))
             .catch(err => console.log(err))
     }
 
     // GET NOISES (NoiseFeed)
     const getNoises = async () => {
-        axios.get('http://localhost:5000/noises')
+        axios.get(`${baseUrl}/noises`)
             .then(response => setNoises(response.data.reverse()))
             .catch(err => console.log(err))
     }
 
     // GET USER (User)
     const getUser = async (userId)=> {
-        const userResponse = await axios.get(`http://localhost:5000/users/${userId}`).catch(err => console.log(err));
+        const userResponse = await axios.get(`${baseUrl}/users/${userId}`).catch(err => console.log(err));
         console.log(userResponse.data);
         setLizardUser(userResponse.data);
     }

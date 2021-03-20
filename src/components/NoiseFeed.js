@@ -5,15 +5,12 @@ import Noise from './Noise';
 
 
 function Feed() {
-    
     const {noises, getNoises} = useContext(LizardContext);
     
-
     useEffect(() => {
         getNoises();
     },[])
 
-    
     return <div className="feed-container">
         {
             noises.map(noise => {
@@ -23,5 +20,4 @@ function Feed() {
         }
     </div>
 }
-
 export default Feed;

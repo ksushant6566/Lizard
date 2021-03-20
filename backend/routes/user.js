@@ -60,7 +60,7 @@ router.route('/like/:id').post((req, res) => {
     User.findById(req.params.id)
         .then(user => {
             let updatedlikedNoises = user.likedNoises;
-            const isLiked = updatedlikedNoises.some(noiseId => noiseId === req.body.likedNoise)
+            const isLiked = updatedlikedNoises.some(noiseId => noiseId._id == req.body.likedNoise)
 
             if(!isLiked){
                 updatedlikedNoises.push(req.body.likedNoise)
@@ -71,7 +71,7 @@ router.route('/like/:id').post((req, res) => {
                     .catch(err => res.status(200).json("Error: "+err))
             }
             else {
-                updatedlikedNoises = user.likedNoises.filter((ln) => { return ln !== req.body.likedNoise})
+                updatedlikedNoises = user.likedNoises.filter((ln) => { return ln._id != req.body.likedNoise})
                 user.likedNoises = updatedlikedNoises;
                 
                 user.save()
@@ -119,7 +119,7 @@ router.route('/follow/:id').post((req, res) => {
 
             user.save()
                 // .then(() => res.json("successful"))
-                .catch(err => res.status(200).json("error"))
+                // .catch(err => res.status(200).json("error"))
         })
         .catch(err => res.status(200).json(err))
 })
