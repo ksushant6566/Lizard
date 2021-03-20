@@ -2,7 +2,7 @@ import React from 'react';
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts";
 import Column2D from "fusioncharts/fusioncharts.charts";
-import FusionTheme from "fusioncharts/themes/fusioncharts.theme.candy";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
 ReactFC.fcRoot(FusionCharts, Column2D, FusionTheme);
 
@@ -18,9 +18,9 @@ const Doughnut2d = ({data}) => {
         // Chart Configuration
         chart: {
           caption: "Stars Per Language",
-          theme: "candy",
+          theme: "fusion",
           decimals : 0,
-          doughnutRadius: '45%',
+          doughnutRadius: '40%',
           showPercentvalues: 0
         },
         data

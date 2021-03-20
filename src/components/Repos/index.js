@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
-import { Pie3D, Column3D, Bar3D, Doughnut2D } from './charts';
-
+import { Pie3D, Column3D, Bar3D, Doughnut2D } from '../charts';
+import { LizardContext } from "../../context/context";
 
 const Repos = () => {
   
-  const { repos }  = useContext(GithubContext)
-  
+  const { repos }  = useContext(LizardContext);
   let languages = repos.reduce(( total, item ) => {
     const { language , stargazers_count} = item
 
@@ -55,7 +54,9 @@ const Repos = () => {
 const Wrapper = styled.div`
   display: grid;
   justify-items: center;
-  gap: 2rem;
+  background: #f1f5f8;
+  padding: 4rem;
+  gap: 4rem;
   @media (min-width: 800px) {
     grid-template-columns: 1fr 1fr;
   }
@@ -66,13 +67,16 @@ const Wrapper = styled.div`
 
   div {
     width: 100% !important;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px grey;
+    background: white;
   }
   .fusioncharts-container {
     width: 100% !important;
   }
   svg {
     width: 100% !important;
-    border-radius: var(--radius) !important;
+    border-radius: 4px !important;
   }
 `;
 
